@@ -5,9 +5,9 @@ from ruamel.yaml import YAML
 def validate_job_name(job_name):
     errors = []
     
-    # Valida se o nome está com o prefixo 'pipe_'
-    if not (job_name.startswith('pipe_') or job_name.startswith('wf_')):
-        errors.append(f"O nome do Workflow '{job_name}' NÃO começa com 'pipe_'.")
+    # Valida se o nome está com o prefixo 'wf_'
+    if not job_name.startswith('wf_'):
+        errors.append(f"O nome do Workflow '{job_name}' NÃO começa com 'wf_'.")
     
     # Verificar se o nome atende ao padrão
     if not re.match(r"^[a-z0-9_]+$", job_name):
@@ -76,7 +76,7 @@ def format_errors(errors):
     return formatted_errors, total_errors
 
 def main():
-    resources_path = "bundle/resources/**/*.yml"
+    resources_path = "bundle/resources/workflows/**/*.yml"
     yml_files = glob.glob(resources_path, recursive=True)
     list_erros = []
 

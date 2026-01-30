@@ -48,9 +48,9 @@ stages:
           python -m pip install ruamel.yaml
     - task: PythonScript@0
       name: ''
-      displayName: Replace yml Workflows
+      displayName: Replace yml Resources
       inputs:
-        scriptPath: bundle/replace_wkf.py
+        scriptPath: bundle/replace_resources.py
         arguments: '--adb_secret $(ADB_SECRET)'
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact

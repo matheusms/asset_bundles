@@ -13,7 +13,7 @@ The architecture consists of:
 
 2. **Repointing During Deployment:**  
    - During the deployment process, the Git path of the notebook is repointed to the corresponding notebook in the Databricks workspace, located in the **workspace** folder.  
-   - This repointing is automatically handled by the pipeline using the `replace_wkf.py` script.  
+   - This repointing is automatically handled by the pipeline using the `replace_resources.py` script.  
 
 With this approach, deployment is fully automated and standardized, ensuring consistency across development, QA, and production environments.
 
@@ -28,8 +28,12 @@ They should be placed according to the defined project, ensuring better organiza
 
 - **`azure_pipelines/`**: Contains the Azure DevOps pipeline definitions.
   - `build_deploy_artifact.yml`: Pipeline for building and publishing the artifact.
-- **`build_validate/`**: Scripts for validating workflows (run on PRs).
+  - `PIPELINE_SETUP.md`: Documentation on how the pipeline works.
+- **`build_validate/`**: Scripts for validating workflows.
+  - `VALIDATION_RULES.md`: Documentation on validation rules.
 - **`bundle/`**: Source code for the Databricks Asset Bundle, including workflows and scripts.
+  - `BUNDLE_STRUCTURE.md`: Documentation on the bundle structure.
+  - `replace_resources.py`: Script to process resources (pipelines/workflows) for deployment.
 
 ## Starting Development
 
@@ -88,9 +92,9 @@ The deployment process in this project uses Azure DevOps to manage the steps and
 
 2. **Python Environment Setup**  
    - The required Python version is defined, and the essential libraries are installed.  
-   - This prepares the environment to run the `replace_wkf.py` Python script.  
+   - This prepares the environment to run the `replace_resources.py` Python script.  
 
-3. **Execution of the `replace_wkf.py` Script**  
+3. **Execution of the `replace_resources.py` Script**  
    - This script performs the following operations:  
      - Opens all `.yml` files located in the `resources` directory.  
      - Restructures the notebook path by removing the Git reference.  
