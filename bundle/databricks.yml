@@ -1,0 +1,36 @@
+# This is a Databricks asset bundle definition for print_ex.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: deploy_dabs
+
+include:
+  - resources/**/*.yml
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  qa:
+    # We use 'mode: development' to indicate this is a personal development copy:
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default
+    # - The 'development' mode is used for Delta Live Tables pipelines
+    mode: development
+    default: True
+    presets:
+      name_prefix: "[QA ${workspace.current_user.short_name}] "
+    workspace:
+      host: ___databricks_workspace_url___
+
+  # The 'prod' target, used for production deployment.
+  prd:
+    # We use 'mode: production' to indicate this is a production deployment.
+    # Doing so enables strict verification of the settings below.
+    mode: production
+    workspace:
+      host: ___databricks_workspace_url___
+      # If this path results in an error, please make sure you have a recent version of the CLI installed.
+      root_path: /Workspace/dabs/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      # This runs as matheus.caldas@<email>.com.br in production. We could also use a service principal here,
+      # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
+      # user_name: <nome de usuario>
+      service_principal_name: ___service_principal_name___

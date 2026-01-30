@@ -1,0 +1,24 @@
+# Evita triggers automáticas no push para branches
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  pythonVersion: '3.11'
+
+steps:
+- task: UsePythonVersion@0
+  displayName: Use Python $(pythonVersion)
+  inputs:
+    versionSpec: $(pythonVersion)
+
+- script: |
+    python -m pip install --upgrade pip
+    python -m pip install ruamel.yaml
+  displayName: 'Install dependencies'
+
+- task: PythonScript@0
+  displayName: Run a Python script
+  inputs:
+    scriptPath: biuld_validate/validate_wkf.py

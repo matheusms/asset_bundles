@@ -1,0 +1,49 @@
+resources:
+  jobs:
+    pipe_etl:
+      name: pipe_etl
+      tasks:
+        - task_key: 002_ntb_ex1
+          notebook_task:
+            notebook_path: silver/002_ntb_ex1
+            source: GIT
+          job_cluster_key: Job_cluster
+        - task_key: 002_ntb_ex2
+          notebook_task:
+            notebook_path: silver/002_ntb_ex2
+            source: GIT
+          job_cluster_key: Job_cluster
+        - task_key: run_job_dims
+          depends_on:
+            - task_key: 002_ntb_ex1
+            - task_key: 002_ntb_ex2
+          run_job_task:
+            job_id: 1111111111111111
+        - task_key: run_job_fatos
+          depends_on:
+            - task_key: run_job_dims
+          run_job_task:
+            job_id: 2222222222222222
+      job_clusters:
+        - job_cluster_key: Job_cluster
+          new_cluster:
+            cluster_name: ""
+            spark_version: 15.4.x-scala2.12
+            azure_attributes:
+              first_on_demand: 1
+              availability: SPOT_WITH_FALLBACK_AZURE
+              spot_bid_max_price: 100
+            node_type_id: Standard_DS3_v2
+            enable_elastic_disk: true
+            policy_id: 000000000000A00
+            data_security_mode: USER_ISOLATION
+            runtime_engine: PHOTON
+            autoscale:
+              min_workers: 2
+              max_workers: 6
+      git_source:
+        git_url: https://<MyOrganizationName>@dev.azure.com/<MyOrganizationName>/<MyProjecttionName>/_git/<MyRepoName>
+        git_provider: azureDevOpsServices
+        git_branch: main
+      queue:
+        enabled: true

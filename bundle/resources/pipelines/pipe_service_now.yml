@@ -1,0 +1,25 @@
+resources:
+  pipelines:
+    pipeline_pipe_service_now:
+      name: pipe_service_now
+      ingestion_definition:
+        connection_name: conn_service_now
+        objects:
+          - table:
+              source_schema: default
+              source_table: table_name_servicenow_1
+              destination_catalog: catalog_dev
+              destination_schema: servicenow_raw
+          - table:
+              source_schema: default
+              source_table: table_name_servicenow_2
+              destination_catalog: catalog_dev
+              destination_schema: servicenow_raw
+        source_type: SERVICENOW
+      schema: servicenow_raw
+      catalog: catalog_dev
+      notifications:
+        - email_recipients:
+            - alert@<MyOrganizationName>.com.br
+          alerts:
+            - on-update-fatal-failure

@@ -1,0 +1,6 @@
+resources:
+  dashboards:
+    painel_de_observabilidade_do_dbsql_warehouse_advisor:
+      display_name: Painel de observabilidade do DBSQL Warehouse Advisor
+      file_path: Painel de observabilidade do DBSQL Warehouse Advisor.lvdash.json
+      warehouse_id: ___databricks_warehouse_id___

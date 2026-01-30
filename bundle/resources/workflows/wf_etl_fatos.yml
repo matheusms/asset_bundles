@@ -1,0 +1,36 @@
+resources:
+  jobs:
+    pipe_etl_fatos:
+      name: pipe_etl_fatos
+      tasks:
+        - task_key: 003_ntb_fato_ex1
+          notebook_task:
+            notebook_path: gold/003_ntb_fato_ex1
+            source: GIT
+          job_cluster_key: Job_cluster
+        - task_key: 003_ntb_fato_ex2
+          notebook_task:
+            notebook_path: gold/003_ntb_fato_ex2
+            source: GIT
+          job_cluster_key: Job_cluster
+      job_clusters:
+        - job_cluster_key: Job_cluster
+          new_cluster:
+            cluster_name: ""
+            spark_version: 15.4.x-scala2.12
+            azure_attributes:
+              first_on_demand: 1
+              availability: SPOT_WITH_FALLBACK_AZURE
+              spot_bid_max_price: 100
+            node_type_id: Standard_DS3_v2
+            enable_elastic_disk: true
+            policy_id: 000000000000A00
+            data_security_mode: USER_ISOLATION
+            runtime_engine: PHOTON
+            num_workers: 4
+      git_source:
+        git_url: https://<MyOrganizationName>@dev.azure.com/<MyOrganizationName>/<MyProjecttionName>/_git/<MyRepoName>
+        git_provider: azureDevOpsServices
+        git_branch: main
+      queue:
+        enabled: true
